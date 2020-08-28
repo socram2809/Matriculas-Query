@@ -40,20 +40,6 @@ public class Professor extends Pessoa {
 		this.cpf = cpf;
 		this.titulacao = titulacao;
 	}
-	
-	/**
-	 * Construtor para criação de professor
-	 * @param nome
-	 * @param email
-	 * @param cpf
-	 * @param titulacao
-	 */
-	public Professor(String nome, String email, String cpf, String titulacao) {
-		this.nome = nome;
-		this.email = email;
-		this.cpf = cpf;
-		this.titulacao = titulacao;
-	}
 
 	/**
 	 * Titulação (mestre, doutor, PHD) do professor

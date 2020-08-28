@@ -1,15 +1,15 @@
 package br.com.marcos.matriculasquery.resource;
 
-import javax.transaction.Transactional;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.jms.annotation.JmsListener;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.marcos.matriculascore.dto.AtualizarProfessorDTO;
+import br.com.marcos.matriculasquery.dto.ProfessorDTO;
 import br.com.marcos.matriculasquery.repository.ProfessorRepository;
 
 /**
@@ -28,13 +28,29 @@ public class ProfessorResource {
 	private ProfessorRepository professorRepository;
 	
 	/**
-	 * Processa requisições que utilizam o método DELETE do HTTP para remover um professor
+	 * Processa requisições que utilizam o método GET do HTTP para retornar todos os professores
+	 * @return
+	 */
+	@GetMapping
+	public List<ProfessorDTO> recuperarProfessores(){
+		return ProfessorDTO.transformaEmDTO(professorRepository.findAll());
+	}
+	
+	/**
+	 * Escuta eventos de criação/alteração de professor advindos do serviço core
+	 * @param aluno
+	 */
+	@JmsListener(destination = "professor.update", containerFactory = "jmsFactoryTopic")
+	public void onProfessorUpdate(AtualizarProfessorDTO professor) {
+		professorRepository.save(ProfessorDTO.transformaEmObjeto(professor));
+	}
+	
+	/**
+	 * Escuta eventos de remoção de professor advindos do serviço core
 	 * @param id
 	 */
-	@Transactional
-	@DeleteMapping("/{id}")
-	@ResponseStatus(code = HttpStatus.NO_CONTENT)
-	public void removerProfessor(@PathVariable Long id) {
+	@JmsListener(destination = "professor.delete", containerFactory = "jmsFactoryTopic")
+	public void onProfessorDelete(Long id) {
 		professorRepository.deleteById(id);
 	}
 }
