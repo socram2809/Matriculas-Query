@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class MatriculasqueryApplication {
+public class MatriculasQueryApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(MatriculasqueryApplication.class, args);
+		SpringApplication.run(MatriculasQueryApplication.class, args);
 	}
 
 }
