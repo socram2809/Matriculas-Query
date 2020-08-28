@@ -25,22 +25,6 @@ import lombok.NoArgsConstructor;
 public class Turma {
 	
 	/**
-	 * Construtor para criação de turma
-	 * @param descricao
-	 * @param anoLetivo
-	 * @param periodoLetivo
-	 * @param numeroVagas
-	 */
-	public Turma(String descricao, Integer anoLetivo, Integer periodoLetivo, Integer numeroVagas, List<Disciplina> disciplinas, List<Aluno> alunos) {
-		this.descricao = descricao;
-		this.anoLetivo = anoLetivo;
-		this.periodoLetivo = periodoLetivo;
-		this.numeroVagas = numeroVagas;
-		this.disciplinas = disciplinas;
-		this.alunos = alunos;
-	}
-	
-	/**
 	 * Identificador da turma
 	 */
 	@Id

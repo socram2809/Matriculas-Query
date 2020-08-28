@@ -1,6 +1,5 @@
 package br.com.marcos.matriculasquery.dto;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,9 +16,7 @@ import lombok.Getter;
  *
  */
 @Getter
-public class ProfessorDTO extends PessoaDTO implements Serializable {
-	
-	private static final long serialVersionUID = 2L;
+public class ProfessorDTO extends PessoaDTO{
 
 	private ProfessorDTO(Long id, String nome, String email, String cpf, String titulacao) {
 		this.id = id;
@@ -32,7 +29,7 @@ public class ProfessorDTO extends PessoaDTO implements Serializable {
 	@NotBlank
 	private String titulacao;
 	
-	public static ProfessorDTO transformaEmDTO(Professor professor) {
+	private static ProfessorDTO transformaEmDTO(Professor professor) {
 		return new ProfessorDTO(professor.getId(), professor.getNome(), professor.getEmail(), professor.getCpf(), professor.getTitulacao());
 	}
 	

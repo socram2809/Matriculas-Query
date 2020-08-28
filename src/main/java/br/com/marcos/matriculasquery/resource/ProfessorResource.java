@@ -38,7 +38,7 @@ public class ProfessorResource {
 	
 	/**
 	 * Escuta eventos de criação/alteração de professor advindos do serviço core
-	 * @param aluno
+	 * @param professor
 	 */
 	@JmsListener(destination = "professor.update", containerFactory = "jmsFactoryTopic")
 	public void onProfessorUpdate(AtualizarProfessorDTO professor) {

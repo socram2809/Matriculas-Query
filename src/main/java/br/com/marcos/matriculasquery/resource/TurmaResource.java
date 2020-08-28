@@ -1,15 +1,15 @@
 package br.com.marcos.matriculasquery.resource;
 
-import javax.transaction.Transactional;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.jms.annotation.JmsListener;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.marcos.matriculascore.dto.AtualizarTurmaDTO;
+import br.com.marcos.matriculasquery.dto.TurmaDTO;
 import br.com.marcos.matriculasquery.repository.TurmaRepository;
 
 /**
@@ -28,13 +28,29 @@ public class TurmaResource {
 	private TurmaRepository turmaRepository;
 	
 	/**
-	 * Processa requisições que utilizam o método DELETE do HTTP para remover uma turma
+	 * Processa requisições que utilizam o método GET do HTTP para retornar todas as turmas
+	 * @return
+	 */
+	@GetMapping
+	public List<TurmaDTO> recuperarTurmas(){
+		return TurmaDTO.transformaEmDTO(turmaRepository.findAll());
+	}
+	
+	/**
+	 * Escuta eventos de criação/alteração de turma advindos do serviço core
+	 * @param turma
+	 */
+	@JmsListener(destination = "turma.update", containerFactory = "jmsFactoryTopic")
+	public void onTurmaUpdate(AtualizarTurmaDTO turma) {
+		turmaRepository.save(TurmaDTO.transformaEmObjeto(turma));
+	}
+	
+	/**
+	 * Escuta eventos de remoção de turma advindos do serviço core
 	 * @param id
 	 */
-	@Transactional
-	@DeleteMapping("/{id}")
-	@ResponseStatus(code = HttpStatus.NO_CONTENT)
-	public void removerTurma(@PathVariable Long id) {
+	@JmsListener(destination = "turma.delete", containerFactory = "jmsFactoryTopic")
+	public void onTurmaDelete(Long id) {
 		turmaRepository.deleteById(id);
 	}
 }
