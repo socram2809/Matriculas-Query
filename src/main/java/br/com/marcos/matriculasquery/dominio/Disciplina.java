@@ -1,8 +1,6 @@
 package br.com.marcos.matriculasquery.dominio;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
@@ -33,7 +31,6 @@ public class Disciplina {
 	 * Identificador da disciplina
 	 */
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	/**
